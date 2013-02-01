@@ -62,18 +62,18 @@ app.filter('realmQueue', function() {
 });
 
 app.controller('RealmController', function($scope, $timeout, Realms) {
-  var refresh;
-  $scope.search = '';
+  var refresh, _ref, _ref1;
+  $scope.search = (_ref = (_ref1 = location.hash) != null ? _ref1.substr(1) : void 0) != null ? _ref : '';
   $scope.lastUpdate = null;
   $scope.realms = [];
+  window.onhashchange = function() {
+    return $scope.search = location.hash;
+  };
   $scope.$watch('search', function(val) {
     if (val != null) {
       return location.hash = val;
     }
   });
-  window.onhashchange = function() {
-    return $scope.search = location.hash;
-  };
   $scope.showAll = function() {
     return $scope.search = '';
   };

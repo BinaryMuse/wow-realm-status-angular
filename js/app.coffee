@@ -29,14 +29,14 @@ app.filter 'realmQueue', ->
   (queue) -> if queue then "Yes" else "No"
 
 app.controller 'RealmController', ($scope, $timeout, Realms) ->
-  $scope.search = ''
+  $scope.search = location.hash?.substr(1) ? ''
   $scope.lastUpdate = null
   $scope.realms = []
 
-  $scope.$watch 'search', (val) ->
-    location.hash = val if val?
   window.onhashchange = ->
     $scope.search = location.hash
+  $scope.$watch 'search', (val) ->
+    location.hash = val if val?
 
   $scope.showAll = ->
     $scope.search = ''
