@@ -1,0 +1,46 @@
+<html>
+<head>
+  <title>WoW Realm Status</title>
+  <script type='text/javascript' src='js/angular.js'></script>
+  <script type='text/javascript' src='js/app.js'></script>
+  <link rel="stylesheet" type="text/css" href="css/app.css" />
+</head>
+<body ng-app='wowRealmStatus'>
+  <a href='https://github.com/BinaryMuse/wow-realm-status-angular'>
+    <img id='forkme' src='images/forkme.png'>
+  </a>
+
+  <div id='main' class='ng-cloak' ng-cloak ng-controller='RealmController'>
+    <p id='search'>
+      Search:
+      <input type='text' size='30' ng-model='search'>
+      <span id='loading'>
+        <img ng-show='loading' alt='loading' src='images/loading.gif'>
+      </span>
+    </p>
+
+    <p id='time'>
+      Last updated:
+      <span ng-hide='lastUpdate'>never</span>
+      <span ng-show='lastUpdate'>{{lastUpdate | date:'MMM d, h:mm a'}}</span><br>
+      <em>Data updates every 5 minutes</em>
+    </p>
+
+    <p id='reset' ng-show='search'>
+      <a ng-click='showAll()'>Show All</a>
+    </p>
+
+    <div ng-repeat="realm in realms | filter:{name:search}">
+      <h1><a ng-click='showOnly(realm.name)'>{{realm.name}}</a>
+        ({{realm.type | realmType}})</h1>
+
+      <p>
+        Status: {{realm.status | realmStatus}}<br>
+        Population: {{realm.population | realmPop}}<br>
+        Queue: {{realm.queue | realmQueue}}
+      </p>
+    </div>
+  </div>
+
+</body>
+</html>
