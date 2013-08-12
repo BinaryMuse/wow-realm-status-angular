@@ -10,7 +10,7 @@
     <img id='forkme' src='images/forkme.png'>
   </a>
 
-  <div id='main' class='ng-cloak' ng-cloak ng-controller='RealmController'>
+  <div id='main' class='ng-cloak' ng-cloak ng-controller='RealmsController'>
     <p id='search'>
       Search:
       <input type='text' size='30' ng-model='search'>
@@ -27,17 +27,17 @@
     </p>
 
     <p id='reset' ng-show='search'>
-      <a ng-click='showAll()'>Show All</a>
+      <a ng-href='#'>Show All</a>
     </p>
 
     <div ng-repeat="realm in realms | filter:{name:search}">
-      <h1><a ng-click='showOnly(realm.name)'>{{realm.name}}</a>
+      <h1><a ng-href='#{{realm.name}}'>{{realm.name}}</a>
         ({{realm.type | realmType}})</h1>
 
       <p>
-        Status: {{realm.status | realmStatus}}<br>
-        Population: {{realm.population | realmPop}}<br>
-        Queue: {{realm.queue | realmQueue}}
+        Status: {{realm.status | boolToString:'Up':'Down'}}<br>
+        Population: {{realm.population | capitalize}}<br>
+        Queue: {{realm.queue | boolToString:'Yes':'No'}}
       </p>
     </div>
   </div>
