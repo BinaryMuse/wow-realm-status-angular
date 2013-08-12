@@ -40,7 +40,7 @@ app.factory 'Realms', ($http) ->
 # every time the URL's hash changes with the new value of the hash.
 app.factory 'hashChange', ($window, $rootScope) ->
   (listener) ->
-    window.onhashchange = ->
+    $window.onhashchange = ->
       $rootScope.$apply ->
         listener($window.location.hash?.substr(1) ? '')
 
