@@ -3,6 +3,31 @@ var app;
 
 app = angular.module('wowRealmStatus', []);
 
+app.controller('RealmsController', function($scope, $timeout, $window, Realms, hashChange) {
+  var refresh;
+  $scope.realms = [];
+  $scope.search = '';
+  $scope.lastUpdate = null;
+  hashChange(function(value) {
+    return $scope.search = value;
+  });
+  $scope.$watch('search', function(val) {
+    if (val != null) {
+      return $window.location.hash = val;
+    }
+  });
+  refresh = function() {
+    $scope.loading = true;
+    return Realms(function(realms) {
+      $scope.realms = realms;
+      $scope.loading = false;
+      $scope.lastUpdate = new Date();
+      return $timeout(refresh, 60 * 5 * 1000);
+    });
+  };
+  return refresh();
+});
+
 app.factory('Realms', function($http) {
   return function(cb) {
     var url;
@@ -10,6 +35,17 @@ app.factory('Realms', function($http) {
     return $http.jsonp(url).success(function(json) {
       return cb(json.realms);
     });
+  };
+});
+
+app.factory('hashChange', function($window, $rootScope) {
+  return function(listener) {
+    return window.onhashchange = function() {
+      return $rootScope.$apply(function() {
+        var _ref, _ref1;
+        return listener((_ref = (_ref1 = $window.location.hash) != null ? _ref1.substr(1) : void 0) != null ? _ref : '');
+      });
+    };
   };
 });
 
@@ -46,38 +82,4 @@ app.filter('boolToString', function() {
       return falseString;
     }
   };
-});
-
-app.factory('hashChange', function($window) {
-  return function(listener) {
-    return window.onhashchange = function() {};
-  };
-});
-
-app.controller('RealmsController', function($scope, $rootScope, $timeout, Realms) {
-  var refresh, _ref, _ref1;
-  $scope.lastUpdate = null;
-  $scope.realms = [];
-  $scope.search = (_ref = (_ref1 = location.hash) != null ? _ref1.substr(1) : void 0) != null ? _ref : '';
-  window.onhashchange = function() {
-    return $scope.$apply(function() {
-      var _ref2, _ref3;
-      return $scope.search = (_ref2 = (_ref3 = location.hash) != null ? _ref3.substr(1) : void 0) != null ? _ref2 : '';
-    });
-  };
-  $scope.$watch('search', function(val) {
-    if (val != null) {
-      return location.hash = val;
-    }
-  });
-  refresh = function() {
-    $scope.loading = true;
-    return Realms(function(realms) {
-      $scope.realms = realms;
-      $scope.loading = false;
-      $scope.lastUpdate = new Date();
-      return $timeout(refresh, 60 * 5 * 1000);
-    });
-  };
-  return refresh();
 });
