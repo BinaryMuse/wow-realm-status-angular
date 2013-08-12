@@ -43,6 +43,9 @@ app.factory 'hashChange', ($window, $rootScope) ->
     $window.onhashchange = ->
       $rootScope.$apply ->
         listener($window.location.hash?.substr(1) ? '')
+    # Invoke once immediately
+    $rootScope.$apply ->
+      listener($window.location.hash?.substr(1) ? '')
 
 
 # The realmType filter simply formats the raw `type` string provided by
