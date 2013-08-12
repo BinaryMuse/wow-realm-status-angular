@@ -11,11 +11,9 @@ app.controller('RealmsController', function($scope, $timeout, $window, Realms, h
   hashChange(function(value) {
     return $scope.search = value;
   });
-  $scope.$watch('search', function(val) {
-    if (val != null) {
-      return $window.location.hash = val;
-    }
-  });
+  $scope.updateHash = function() {
+    return $window.location.hash = $scope.search;
+  };
   refresh = function() {
     $scope.loading = true;
     return Realms(function(realms) {

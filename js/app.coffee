@@ -13,8 +13,8 @@ app.controller 'RealmsController', ($scope, $timeout, $window, Realms, hashChang
 
   # Conversely, if the user types into the search box and updates
   # the `search` value, represent the change in the URL.
-  $scope.$watch 'search', (val) ->
-    $window.location.hash = val if val?
+  $scope.updateHash = ->
+    $window.location.hash = $scope.search
 
   # Updates the server list and schedules another update in 5 minutes
   refresh = ->

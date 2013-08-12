@@ -13,7 +13,7 @@
   <div id='main' class='ng-cloak' ng-cloak ng-controller='RealmsController'>
     <p id='search'>
       Search:
-      <input type='text' size='30' ng-model='search'>
+      <input type='text' size='30' ng-model='search' ng-change='updateHash()'>
       <span id='loading'>
         <img ng-show='loading' alt='loading' src='images/loading.gif'>
       </span>
