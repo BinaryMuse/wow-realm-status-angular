@@ -38,16 +38,14 @@ app.factory('Realms', function($http) {
 
 app.factory('hashChange', function($window, $rootScope) {
   return function(listener) {
+    var _ref, _ref1;
     $window.onhashchange = function() {
       return $rootScope.$apply(function() {
         var _ref, _ref1;
         return listener((_ref = (_ref1 = $window.location.hash) != null ? _ref1.substr(1) : void 0) != null ? _ref : '');
       });
     };
-    return $rootScope.$apply(function() {
-      var _ref, _ref1;
-      return listener((_ref = (_ref1 = $window.location.hash) != null ? _ref1.substr(1) : void 0) != null ? _ref : '');
-    });
+    return listener((_ref = (_ref1 = $window.location.hash) != null ? _ref1.substr(1) : void 0) != null ? _ref : '');
   };
 });
 
